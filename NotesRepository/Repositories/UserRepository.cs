@@ -27,6 +27,10 @@ namespace NotesRepository.Repositories
             var user = await ctx.Users.FirstOrDefaultAsync(x => x.Id == userId.ToString());
             if (user != null)
             {
+                var notes = ctx.Notes.Where(x => x.Owner.Id == userId);
+                if (notes.Any())
+                    ctx.Notes.RemoveRange(notes);
+
                 ctx.Users.Remove(user);
                 var result = await ctx.SaveChangesAsync();
                 return result > 0;
