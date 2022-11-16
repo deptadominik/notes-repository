@@ -1156,6 +1156,15 @@ namespace NotesRepository.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pin note.
+        /// </summary>
+        public static string pinNote {
+            get {
+                return ResourceManager.GetString("pinNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter an email address for this site below and click the Register button to finish
         ///    logging in..
         /// </summary>
@@ -1504,6 +1513,15 @@ namespace NotesRepository.Shared.Resources {
         public static string twoFactorAuthentication {
             get {
                 return ResourceManager.GetString("twoFactorAuthentication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unpin note.
+        /// </summary>
+        public static string unPinNote {
+            get {
+                return ResourceManager.GetString("unPinNote", resourceCulture);
             }
         }
         

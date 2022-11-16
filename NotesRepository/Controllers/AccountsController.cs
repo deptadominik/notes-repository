@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using NotesRepository.Areas.Identity.Data;
 using NotesRepository.Data.DTOs;
+using NotesRepository.Data.Models;
 using NotesRepository.Repositories;
+using NotesRepository.Services;
 using Directory = NotesRepository.Data.Models.Directory;
 
 namespace NotesRepository.Controllers;
@@ -52,6 +54,46 @@ public class AccountsController : ControllerBase
         var hashed = hasher.HashPassword(user, details.Password);
         user.PasswordHash = hashed;
         if (await ur.AddUserAsync(user))
+            return CreatedAtAction(nameof(GetAccount), new { id = user.Id }, user);
+        else return BadRequest();
+    }
+
+    [HttpPost("with-note/")]
+    public async Task<ActionResult<ApplicationUser>> CreateAccountWithNote([FromBody] AccountDetails details,
+        [FromServices] UserRepository ur, [FromServices] NoteService ns)
+    {
+        if (await ur.GetUserByEmailAsync(details.Email) is not null)
+            return BadRequest();
+
+        var customDirId = Guid.NewGuid();
+        var user = new ApplicationUser
+        {
+            Id = Guid.NewGuid().ToString(),
+            Email = details.Email,
+            NormalizedEmail = details.Email.ToUpper(),
+            UserName = details.Email,
+            NormalizedUserName = details.Email.ToUpper(),
+            EmailConfirmed = true,
+            SecurityStamp = Guid.NewGuid().ToString(),
+        };
+        var customDir = new Directory("Custom", user, customDirId);
+        user.Directories = new List<Directory> { new Directory("Default", user), new Directory("Bin", user), customDir};
+        user.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(user, details.Password);
+        var wasUserAdded = await ur.AddUserAsync(user);
+        var note = new Note
+        {
+            NoteId = Guid.NewGuid(),
+            Title = "Password list",
+            Content = "Note under default directory",
+            CreatedAt = new DateTime(2019, 12, 24, 4, 20, 0),
+            EditedAt = new DateTime(2021, 4, 21, 7, 42, 0),
+            EditedBy = user,
+            Owner = user,
+            Directory = customDir,
+            IsPinned = true
+        };
+        var wasNoteAdded = await ns.AddNoteAsync(note);
+        if(wasUserAdded && wasNoteAdded)
             return CreatedAtAction(nameof(GetAccount), new { id = user.Id }, user);
         else return BadRequest();
     }
