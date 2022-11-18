@@ -4,7 +4,7 @@ import {saveNoteModal} from '../../modals/saveNoteModal'
 import {toastModal} from '../../modals/toastModal'
 
 const noteContent:string = "#Test note content"
-const username:string = "note@1.com"
+const username:string = "add@note.com"
 const password:string = "Admin123!"
 
 describe('User is able to add a note with default title to default directory', () => {
