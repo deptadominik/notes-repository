@@ -53,7 +53,7 @@
                 @if (directoriesList is not null && NoteFromDB is not null)
                 {
                     <row class="ps-2">
-                        <InputSelect id="noteTitle" @bind-Value="@inputFromUser.Directory" class="my-input">
+                        <InputSelect id="noteTitle" data-ref="dir-select" @bind-Value="@inputFromUser.Directory" class="my-input">
                             <option value="@NoteFromDB.Directory.Name">@NoteFromDB.Directory.Name</option>
                             @foreach (var d in directoriesList)
                             {
