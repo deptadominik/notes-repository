@@ -205,7 +205,7 @@
                 {
                     var notesFromCurrentSubirectory = _ns.GetAllNotesForParticularDirectory(dir.DirectoryId);
                     <div class="d-flex align-items-baseline justify-content-between nav-item my-nav-item dropdown-toggle nav-link my-custom-nav-item">
-                        <div data-ref="dir-@dir.DirectoryId" class="folder-child " @onclick="@(() => ToggleSubDirectory(dir))">
+                        <div data-ref="dir-@dir.Name" class="folder-child " @onclick="@(() => ToggleSubDirectory(dir))">
                             <i class="oi oi-folder" aria-hidden="true"></i>
                             @PrintName(dir.Name)
                             @if (dir.SubDirectories != null && dir.SubDirectories.Count() > 0 || notesFromCurrentSubirectory != null && notesFromCurrentSubirectory.Count() > 0)
@@ -224,10 +224,10 @@
                         </div>
                         <div class="my-options d-flex">
                             <div class="my-options-child">
-                                <i data-ref="add-subdir-for-@dir.DirectoryId" class="fa-solid fa-plus " @onclick="()=> HandleAddingFolderPopup(dir)"></i>
+                                <i data-ref="add-subdir-for-@dir.Name" class="fa-solid fa-plus " @onclick="()=> HandleAddingFolderPopup(dir)"></i>
                             </div>
                             <div class="my-options-child">
-                                <i data-ref="open-menu-for-@dir.DirectoryId" class="fa-solid fa-ellipsis " @onclick="()=> HandleFolderPopup(dir)"></i>
+                                <i data-ref="open-menu-for-@dir.Name" class="fa-solid fa-ellipsis " @onclick="()=> HandleFolderPopup(dir)"></i>
                             </div>
                         </div>
 

@@ -20,17 +20,20 @@ namespace NotesRepository.Areas.Identity.Pages.Account.Manage
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<DeletePersonalDataModel> _logger;
         private readonly CollaboratorsNotesService _cns;
+        private readonly NoteService _ns;
 
         public DeletePersonalDataModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<DeletePersonalDataModel> logger,
+            NoteService noteService,
             CollaboratorsNotesService collaboratorsNotesService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _cns = collaboratorsNotesService;
+            _ns = noteService;
         }
 
         /// <summary>
@@ -95,6 +98,12 @@ namespace NotesRepository.Areas.Identity.Pages.Account.Manage
             {
                 foreach (var note in sharedNotes)
                     await _cns.DeleteCollaboratorFromNoteAsync(user.Id, note.NoteId);
+            }
+            var notes = await _ns.GetAllUserNotesByIdAsync(user.Id);
+            if(notes.Count > 0)
+            {
+                foreach (var note in notes)
+                    await _ns.DeleteNoteByIdAsync(note.NoteId);
             }
             var result = await _userManager.DeleteAsync(user);
             var userId = await _userManager.GetUserIdAsync(user);

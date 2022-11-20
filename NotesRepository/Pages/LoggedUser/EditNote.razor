@@ -72,7 +72,7 @@
                 <div class="my-sub-input-container">
                     @if (@validId && @noteFromDb is not null)
                     {
-                        <InputFile OnChange="@LoadFile" accept=".jpg, .png" />
+                        <InputFile OnChange="@LoadFile" data-ref="file-input" accept=".jpg, .png" />
                     }
                     else
                     {

@@ -634,4 +634,10 @@
   <data name="deleteEvent" xml:space="preserve">
     <value>Delete Event</value>
   </data>
+  <data name="pinNote" xml:space="preserve">
+    <value>Pin note</value>
+  </data>
+  <data name="unPinNote" xml:space="preserve">
+    <value>Unpin note</value>
+  </data>
 </root>
