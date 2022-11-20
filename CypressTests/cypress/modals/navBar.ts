@@ -11,11 +11,17 @@ export class navBar {
   static clickFolders() {
     cy.dataRef("main-dir-btn").click();
   }
+  static clickHome() {
+    cy.dataRef("home-btn").click();
+  }
   static clickOnDirectory(directoryName: string): void {
     cy.dataRef(`dir-${directoryName}`).click();
   }
   static clickOnNoteMenu(noteIndex: number): void {
     cy.dataRef(`note-menu-${noteIndex}`).click();
+  }
+  static clickDeleteNote(): void {
+    cy.xpath("//div[text()='Delete note']").click();
   }
   static assertNoteTitle(noteIndex: number, noteTitle: string): void {
     cy.get(`[data-ref="note-${noteIndex}"`).should(($title) => {
@@ -26,5 +32,13 @@ export class navBar {
     cy.dataRef("dir-select").select(directoryName);
     cy.wait(1000)
     cy.xpath("//button[text()='Save']").click();
+  }
+  static pinNote(): void {
+    cy.xpath("//div[text()='Pin note']").click();
+    cy.xpath("//div[@class='blazored-modal-content']//button[text()='Save']").click();
+  }
+  static unpinNote(): void {
+    cy.xpath("//div[text()='Unpin note']").click();
+    cy.xpath("//div[@class='blazored-modal-content']//button[text()='Save']").click();
   }
 }
