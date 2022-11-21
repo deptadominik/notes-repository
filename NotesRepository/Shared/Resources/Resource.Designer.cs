@@ -343,7 +343,7 @@ namespace NotesRepository.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete this folser.
+        ///   Looks up a localized string similar to Delete this folder.
         /// </summary>
         public static string deleteFolder {
             get {

@@ -14,7 +14,7 @@ export class navBar {
   static clickHome() {
     cy.dataRef("home-btn").click();
   }
-  static clickOnDirectory(directoryName: string): void {
+  static clickOnFolder(directoryName: string): void {
     cy.dataRef(`dir-${directoryName}`).click();
   }
   static clickOnNoteMenu(noteIndex: number): void {
@@ -40,5 +40,14 @@ export class navBar {
   static unpinNote(): void {
     cy.xpath("//div[text()='Unpin note']").click();
     cy.xpath("//div[@class='blazored-modal-content']//button[text()='Save']").click();
+  }
+  static addNewDirectory(): void {
+    cy.dataRef("add-new-dir").click();
+  }
+  static addNewSubdirectory(directoryName: string): void {
+    cy.dataRef(`add-subdir-for-${directoryName}`).click();
+  }
+  static openDirectoryMenu(directoryName: string): void {
+    cy.dataRef(`open-menu-for-${directoryName}`).click();
   }
 }
