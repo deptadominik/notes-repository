@@ -155,7 +155,7 @@
         else
         {
             var usr = await _ur.GetUserByIdAsync(userId);
-            var directory = await _ds.GetDirectoryByNameAsync("default", userId);
+            var directory = await _ds.GetDirectoryByNameAsync("Default", userId);
             if (usr is not null && directory is not null)
             {
                 // Save new note
