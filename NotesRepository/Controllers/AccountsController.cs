@@ -99,6 +99,61 @@ public class AccountsController : ControllerBase
         else return BadRequest();
     }
 
+    [HttpPost("with-many-notes/")]
+    public async Task<ActionResult<ApplicationUser>> CreateAccountWithManyNotes([FromBody] AccountDetails details,
+        [FromServices] UserRepository ur, [FromServices] NoteService ns, [FromServices] EventService es)
+    {
+        if (await ur.GetUserByEmailAsync(details.Email) is not null)
+            return BadRequest();
+
+        var customDirId = Guid.NewGuid();
+        var user = new ApplicationUser
+        {
+            Id = Guid.NewGuid().ToString(),
+            Email = details.Email,
+            NormalizedEmail = details.Email.ToUpper(),
+            UserName = details.Email,
+            NormalizedUserName = details.Email.ToUpper(),
+            EmailConfirmed = true,
+            SecurityStamp = Guid.NewGuid().ToString(),
+        };
+        var customDir = new Directory("Custom", user, customDirId);
+        user.Directories = new List<Directory> { new Directory("Default", user), new Directory("Bin", user), customDir};
+        user.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(user, details.Password);
+        var wasUserAdded = await ur.AddUserAsync(user);
+        var random = new Random();
+        for (int i = 0; i < 46; i++)
+        {
+            var note = new Note
+            {
+                NoteId = Guid.NewGuid(),
+                Title = $"Note_{i}",
+                Content = $"Note ({i}) under default directory",
+                CreatedAt = new DateTime(2019, random.Next(1, 12),
+                    random.Next(1, 28), random.Next(1, 12), 20, 0),
+                EditedAt = new DateTime(2021, random.Next(1, 12), 
+                    random.Next(1, 28), random.Next(1, 12), 42, 0),
+                EditedBy = user,
+                Owner = user,
+                Directory = customDir,
+                IsPinned = false
+            };
+            await ns.AddNoteAsync(note);
+        }
+
+        var @event = new Event(
+            Guid.NewGuid(),
+            "Mommy's 50th birthday",
+            new DateTime(2024, 5, 28),
+            new DateTime(2024, 5, 29),
+            user);
+        await es.AddAsync(@event);
+        
+        if(wasUserAdded)
+            return CreatedAtAction(nameof(GetAccount), new { id = user.Id }, user);
+        else return BadRequest();
+    }
+    
     [HttpDelete("delete-by-id")]
     public async Task<ActionResult<ApplicationUser>> DeleteAccountById([FromBody] AccountDetails details, [FromServices] UserRepository ur)
     {

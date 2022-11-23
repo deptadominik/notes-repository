@@ -10,6 +10,10 @@ Cypress.Commands.add('createAccountWithNote', (email, password) => {
   cy.request('POST', '/api/accounts/with-note', { email: email, password: password })
 })
 
+Cypress.Commands.add('createAccountWithManyNotes', (email, password) => {
+  cy.request('POST', '/api/accounts/with-many-notes', { email: email, password: password })
+})
+
 Cypress.Commands.add('createAccountWithSubdirectory', (email, password) => {
   cy.request('POST', '/api/accounts/with-subdirectory', { email: email, password: password })
 })

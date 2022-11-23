@@ -69,7 +69,7 @@
                 {
                     <Dropzone Class="my-dragdrop" Items="latestList" MaxItems=@latestList.Count InstantReplace=" true ">
                         <div class="note" @onclick="()=>NavigateToNote(context.NoteId.ToString())"
-                             data-ref="last-edited-note-@context.NoteId">
+                             data-ref="last-edited-note">
                             <center>
                                 <h5>@context.Title</h5>
                                 <br>
@@ -90,7 +90,7 @@
                 {
                     @foreach (var e in upcomingEventsList)
                     {
-                        <div class="note" data-ref="last-edited-event-@e.EventId">
+                        <div class="note" data-ref="last-edited-event">
                             <center>
                                 <h5>@e.Content</h5>
                                 <br>
