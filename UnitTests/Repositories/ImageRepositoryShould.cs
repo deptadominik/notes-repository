@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Tests.Repositories
+namespace UnitTests.Repositories
 {
     public class ImageRepositoryShould
     {

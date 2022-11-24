@@ -12,7 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Tests.Services
+namespace UnitTests.Services
 {
     public class ImageServiceShould
     {

@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Tests.Services
+namespace UnitTests.Services
 {
     public class NoteServiceShould
     {

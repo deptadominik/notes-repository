@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Xunit;
 using FluentAssertions;
 
-namespace Tests.Repositories
+namespace UnitTests.Repositories
 {
     public class NoteRepositoryShould
     {
@@ -202,7 +202,7 @@ namespace Tests.Repositories
         {
             // Arrange
             var nr = new NoteRepository(_context);
-            var user = new ApplicationUser { FirstName = "Hugo", LastName = "Ko³³¹taj", Id = Guid.NewGuid().ToString() };
+            var user = new ApplicationUser { FirstName = "Hugo", LastName = "Koï¿½ï¿½ï¿½taj", Id = Guid.NewGuid().ToString() };
             var anotherUser = new ApplicationUser();
             var notes = new List<Note>()
             {

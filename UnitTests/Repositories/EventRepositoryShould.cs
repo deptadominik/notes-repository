@@ -11,7 +11,7 @@ using NotesRepository.Repositories;
 using Xunit;
 using FluentAssertions;
 
-namespace Tests.Repositories
+namespace UnitTests.Repositories
 {
     public class EventRepositoryShould : IDbContextFactory<ApplicationDbContext>
     {
