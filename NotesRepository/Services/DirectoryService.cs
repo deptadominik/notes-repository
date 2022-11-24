@@ -231,7 +231,7 @@ namespace NotesRepository.Services
         public async Task<bool> MoveDirectoryWithStructureOfSubdirectoriesAndNotesToBinAsync(Guid directoryId)
         {
             var directory = await _dr.GetByIdAsync(directoryId);
-            var bin = await _dr.GetDirectoryByNameAsync("Bin", directory.User.Id);
+            var bin = await _dr.GetDirectoryByNameAsync("Bin", directory?.User?.Id);
 
             if (directory != null && bin != null)
             {

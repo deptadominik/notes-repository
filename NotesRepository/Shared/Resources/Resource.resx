@@ -193,7 +193,7 @@
     <value>Delete</value>
   </data>
   <data name="deleteFolder" xml:space="preserve">
-    <value>Delete this folser</value>
+    <value>Delete this folder</value>
   </data>
   <data name="deleteFolderPermanently" xml:space="preserve">
     <value>Delete Folder Permanently</value>

@@ -20,14 +20,15 @@ describe("User is able to pin a note", () => {
     cy.dataRef('save-note').click()
     cy.xpath(saveNoteModal.saveButton).click()
     navBar.clickFolders()
-    navBar.clickOnDirectory("Default")
-    navBar.clickOnNoteMenu(0)
+    navBar.clickOnFolder("Default")
+    navBar.clickOnNoteMenu("New note")
     navBar.pinNote()
     navBar.clickHome()
     cy.dataRef("pinned-notes-container")
       .should("contain.text", "New note")
   });
 });
+
 describe("User is able to unpin a note", () => {
   beforeEach(() => {
     cy.visit("/Identity/Account/Login");
@@ -35,8 +36,8 @@ describe("User is able to unpin a note", () => {
   });
   it("note is not pinned on home page under `Pinned` section", () => {
     navBar.clickFolders()
-    navBar.clickOnDirectory("Default")
-    navBar.clickOnNoteMenu(0)
+    navBar.clickOnFolder("Default")
+    navBar.clickOnNoteMenu("New note")
     navBar.unpinNote()
     navBar.clickHome()
     cy.dataRef("pinned-notes-container")
@@ -52,16 +53,16 @@ describe("User is able to move note to another directory", () => {
 
   it("correct notification is displayed", () => {
     navBar.clickFolders()
-    navBar.clickOnDirectory("Custom")
-    navBar.clickOnNoteMenu(0)
+    navBar.clickOnFolder("Custom")
+    navBar.clickOnNoteMenu(originalNoteTitle)
     navBar.selectNoteDirectory("Default")
     cy.xpath(toastModal.message, { timeout: 10000 })
       .should("have.text", "Folder has been changed.")
   });
   it("note is moved to new directory", () => {
     navBar.clickFolders()
-    navBar.clickOnDirectory("Default")
-    navBar.assertNoteTitle(1, "Password")
+    navBar.clickOnFolder("Default")
+    navBar.assertNoteTitle(originalNoteTitle, "Password")
   });
 });
 

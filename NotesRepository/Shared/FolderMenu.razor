@@ -67,7 +67,7 @@
 
             }
         </div>
-        <div class="my-nav-item px-3 py-1 my-nav-item-hover" @onclick="() => DeleteFolder(DirectoryFromDB)">
+        <div class="my-nav-item px-3 py-1 my-nav-item-hover" data-ref="delete-dir" @onclick="() => DeleteFolder(DirectoryFromDB)">
             <span class="oi oi-trash" aria-hidden="true"></span> @localizer["deleteFolder"]
         </div>
     </div>

@@ -14,7 +14,7 @@ describe("User is able to delete note", () => {
     });
     it("correct notification is displayed", () => {
         navBar.clickFolders()
-        navBar.clickOnDirectory("Custom")
+        navBar.clickOnFolder("Custom")
         navBar.clickOnNoteMenu(0)
         navBar.clickDeleteNote()
         cy.xpath(toastModal.message, { timeout: 10000 }).should(

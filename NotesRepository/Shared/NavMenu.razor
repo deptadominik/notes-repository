@@ -259,7 +259,7 @@
                    @foreach (var dir in allCurrentSubdirectiories)
                    {
                        <div class="d-flex align-items-baseline justify-content-between nav-item my-nav-item dropdown-toggle nav-link my-custom-nav-item" @onclick="@(() => ToggleSubDirectory(dir))">
-                           <div class="folder-child">
+                           <div class="folder-child" data-ref="dir-@dir.Name">
                                <i class="oi oi-folder" aria-hidden="true"></i>
                                @PrintName(dir.Name)
                                @if (dir.SubDirectories != null && dir.SubDirectories.Count() > 0)
@@ -274,7 +274,7 @@
                                    }
                                }
                            </div>
-                           <i class="fa-solid fa-ellipsis " @onclick="()=> HandleDeletedFolderPopup(dir)"></i>
+                           <i class="fa-solid fa-ellipsis" data-ref="dir-menu-@dir.Name" @onclick="()=> HandleDeletedFolderPopup(dir)"></i>
                        </div>
 
                        @if (dir.IsToggled)
@@ -416,7 +416,7 @@
                 @foreach (var note in notes.Select((value, i) => new { i, value }))
                 {
                     <div class="d-flex align-items-baseline justify-content-between nav-item my-nav-item dropdown-toggle nav-link my-custom-nav-item">
-                        <div data-ref="note-@note.i" class="folder-child" @onclick="() => GoToNote(note.value.NoteId.ToString())">
+                        <div data-ref="note-@note.value.Title" class="folder-child" @onclick="() => GoToNote(note.value.NoteId.ToString())">
                             <i>@note.value.IconName</i>
                             @PrintName(note.value.Title)
                         </div>
@@ -424,11 +424,11 @@
                             <div class="my-options-child">
                                 @if (note.value.IsMarkedAsDeleted)
                                 {
-                                    <i class="fa-solid fa-ellipsis " @onclick="()=> HandleDeletedNotesPopup(note.value)"></i>
+                                    <i data-ref="note-menu-@note.value.Title" class="fa-solid fa-ellipsis " @onclick="()=> HandleDeletedNotesPopup(note.value)"></i>
                                 }
                                 else
                                 {
-                                    <i data-ref="note-menu-@note.i" class="fa-solid fa-ellipsis " @onclick="()=> HandleNotesPopup(note.value)"></i>
+                                    <i data-ref="note-menu-@note.value.Title" class="fa-solid fa-ellipsis " @onclick="()=> HandleNotesPopup(note.value)"></i>
                                 }
                             </div>
                         </div>
