@@ -31,6 +31,6 @@ public class SaveNoteModal
 	{
 		modal.FindElement(By.XPath("//button[text()='Save']")).Click();
 
-		return new HomePage(driver);
+		return new HomePage(driver, waitForHomePage: false);
     }
 }

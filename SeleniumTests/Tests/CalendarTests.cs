@@ -4,15 +4,16 @@ using SeleniumTests.Constants;
 using SeleniumTests.Extensions;
 using SeleniumTests.Fixtures;
 using SeleniumTests.Infrastructure.Seeders;
+using Xunit.Sdk;
 
 namespace SeleniumTests.Tests;
 
-public class CalendarTests : IClassFixture<BaseRemoteFixture>
+public class CalendarTests : IClassFixture<BaseLocalFixture>
 {
     private IWebDriver driver;
     private BasicSeedingReport report;
 
-    public CalendarTests(BaseRemoteFixture fixture)
+    public CalendarTests(BaseLocalFixture fixture)
     {
         driver = fixture.WebDriver;
         report = fixture.BasicSeedingReport;
@@ -27,12 +28,13 @@ public class CalendarTests : IClassFixture<BaseRemoteFixture>
         var startAtTime = $"{DateTime.Now.Month}/{DateTime.Now.Day}/{DateTime.Now.Year} 23:59:00";
 
         //WHEN
-        var notification = await driver
-            .GoToLoginPage()
-            .InsertPassword(SeederData.password)
-            .InsertEmail(email)
-            .Login()
-            .ClickCalendarFromNavMenu()
+        driver
+             .GoToLoginPage()
+             .InsertPassword(SeederData.password)
+             .InsertEmail(email)
+             .Login();
+        var calendarPage = driver.GoToCalendar();
+        var notification = await calendarPage
             .ClickOnCurrentDay()
             .WithStartAt(startAtTime)
             .WithTitle(eventTitle)
@@ -51,12 +53,12 @@ public class CalendarTests : IClassFixture<BaseRemoteFixture>
         var startAtTime = $"{DateTime.Now.Month}/{DateTime.Now.Day}/{DateTime.Now.Year} 23:59:00";
 
         //WHEN
-        var calendarPage = driver
+        driver
             .GoToLoginPage()
             .InsertPassword(SeederData.password)
             .InsertEmail(email)
-            .Login()
-            .ClickCalendarFromNavMenu();
+            .Login();
+        var calendarPage = driver.GoToCalendar();
         var notification = await calendarPage
             .ClickOnCurrentDay()
             .WithStartAt(startAtTime)
@@ -78,12 +80,13 @@ public class CalendarTests : IClassFixture<BaseRemoteFixture>
         var startAtTime = $"{DateTime.Now.Month}/{DateTime.Now.AddDays(-1).Day}/{DateTime.Now.Year} 12:22:00";
 
         //WHEN
-        var notification = await driver
+        driver
             .GoToLoginPage()
             .InsertPassword(SeederData.password)
             .InsertEmail(email)
-            .Login()
-            .ClickCalendarFromNavMenu()
+            .Login();
+        var calendarPage = driver.GoToCalendar();
+        var notification = await calendarPage
             .ClickOnCurrentDay()
             .WithTitle(eventTitle)
             .WithStartAt(startAtTime)
@@ -103,12 +106,13 @@ public class CalendarTests : IClassFixture<BaseRemoteFixture>
         var endAtTime = $"{DateTime.Now.AddMonths(-1).Month}/{DateTime.Now.AddDays(-3).Day}/{DateTime.Now.Year} 12:22:00";
 
         //WHEN
-        var notification = await driver
+        driver
             .GoToLoginPage()
             .InsertPassword(SeederData.password)
             .InsertEmail(email)
-            .Login()
-            .ClickCalendarFromNavMenu()
+            .Login();
+        var calendarPage = driver.GoToCalendar();
+        var notification = await calendarPage
             .ClickOnCurrentDay()
             .WithStartAt(startAtTime)
             .WithEndAt(endAtTime)
@@ -126,12 +130,13 @@ public class CalendarTests : IClassFixture<BaseRemoteFixture>
         var email = report.Users.ElementAt(4).Name;
 
         //WHEN
-        var errorMessage = (await driver
+        driver
             .GoToLoginPage()
             .InsertPassword(SeederData.password)
             .InsertEmail(email)
-            .Login()
-            .ClickCalendarFromNavMenu()
+            .Login();
+        var calendarPage = driver.GoToCalendar();
+        var errorMessage = (await calendarPage
             .ClickOnCurrentDay()
             .Save())
             .GetTitleErrorMessage();
@@ -148,12 +153,13 @@ public class CalendarTests : IClassFixture<BaseRemoteFixture>
         var newTitle = "ChangingTitle";
 
         //WHEN
-        var notification = await driver
+        driver
             .GoToLoginPage()
             .InsertPassword(SeederData.password)
             .InsertEmail(email)
-            .Login()
-            .ClickCalendarFromNavMenu()
+            .Login();
+         var calendarPage = driver.GoToCalendar();
+         var notification = await calendarPage
             .ClickOnEvent(SeederData.EventContent(1))
             .WithTitle(newTitle)
             .SaveAndGetNotification();
@@ -167,16 +173,17 @@ public class CalendarTests : IClassFixture<BaseRemoteFixture>
     {
         //GIVEN
         var email = report.Users.ElementAt(6).Name;
-        var shiftedTime = DateTime.Now.AddDays(17);
+        var shiftedTime = DateTime.Now.AddHours(1);
         var startAtTime = $"{shiftedTime.Month}/{shiftedTime.Day}/{shiftedTime.Year} 23:59:00";
 
         //WHEN
-        var notification = await driver
+        driver
             .GoToLoginPage()
             .InsertPassword(SeederData.password)
             .InsertEmail(email)
-            .Login()
-            .ClickCalendarFromNavMenu()
+            .Login();
+        var calendarPage = driver.GoToCalendar();
+        var notification = await calendarPage
             .ClickOnEvent(SeederData.EventContent(1))
             .WithStartAt(startAtTime)
             .SaveAndGetNotification();
@@ -194,12 +201,13 @@ public class CalendarTests : IClassFixture<BaseRemoteFixture>
         var endAtTime = $"{shiftedTime.Month}/{shiftedTime.Day}/{shiftedTime.Year} 23:59:00";
 
         //WHEN
-        var notification = await driver
+        driver
             .GoToLoginPage()
             .InsertPassword(SeederData.password)
             .InsertEmail(email)
-            .Login()
-            .ClickCalendarFromNavMenu()
+            .Login();
+        var calendarPage = driver.GoToCalendar();
+        var notification = await calendarPage
             .ClickOnEvent(SeederData.EventContent(1))
             .WithEndAt(endAtTime)
             .SaveAndGetNotification();
@@ -215,12 +223,12 @@ public class CalendarTests : IClassFixture<BaseRemoteFixture>
         var email = report.Users.ElementAt(8).Name;
 
         //WHEN
-        var calendarPage = driver
+        driver
             .GoToLoginPage()
             .InsertPassword(SeederData.password)
             .InsertEmail(email)
-            .Login()
-            .ClickCalendarFromNavMenu();
+            .Login();
+        var calendarPage = driver.GoToCalendar();
         var notification = await calendarPage
             .ClickOnEvent(SeederData.EventContent(1))
             .WithNote(SeederData.NoteTitle(1))
@@ -241,15 +249,17 @@ public class CalendarTests : IClassFixture<BaseRemoteFixture>
         var email = report.Users.ElementAt(9).Name;
 
         //WHEN
-        var calendarPage = await driver
+        driver
             .GoToLoginPage()
             .InsertPassword(SeederData.password)
             .InsertEmail(email)
-            .Login()
-            .ClickCalendarFromNavMenu()
+            .Login();
+        var calendarPage = driver.GoToCalendar();
+        (await calendarPage
             .ClickOnEvent(SeederData.EventContent(1))
             .WithNote(SeederData.NoteTitle(1))
-            .Save();
+            .Save())
+            .CloseNotification();
         var notification = await calendarPage
             .ClickOnEvent(SeederData.EventContent(1))
             .WithNote("---")
@@ -261,26 +271,26 @@ public class CalendarTests : IClassFixture<BaseRemoteFixture>
     }
 
     [Fact]
-    public void UserIsAbleToRemoveEvent()
+    public async void UserIsAbleToRemoveEvent()
     {
         //GIVEN
         var email = report.Users.ElementAt(10).Name;
 
         //WHEN
-        var calendarPage = driver
+        driver
             .GoToLoginPage()
             .InsertPassword(SeederData.password)
             .InsertEmail(email)
-            .Login()
-            .ClickCalendarFromNavMenu();
+            .Login();
+        var calendarPage = driver.GoToCalendar();
         var notification = calendarPage
             .ClickOnEvent(SeederData.EventContent(1))
             .DeleteEventAndGetNotification();
 
         //THEN
         notification.Should().Be("You have successfully deleted an event");
-        try { calendarPage.ClickOnEvent(SeederData.EventContent(1)); }
-        catch (NoSuchElementException e) { e.Message.Should().Contain("no such element", because: "event was deleted"); }
+        try { calendarPage.ClickOnEvent(SeederData.EventContent(1), waitForVisibleElement: false); }
+        catch (NoSuchElementException e) { e.Message.Should().Contain("no such", because: "event was deleted"); }
     }
 
     [Fact]
@@ -290,12 +300,12 @@ public class CalendarTests : IClassFixture<BaseRemoteFixture>
         var email = report.Users.ElementAt(11).Name;
 
         //WHEN
-        var calendarPage = driver
+        driver
             .GoToLoginPage()
             .InsertPassword(SeederData.password)
             .InsertEmail(email)
-            .Login()
-            .ClickCalendarFromNavMenu();
+            .Login();
+        var calendarPage = driver.GoToCalendar();
         (await calendarPage
             .ClickOnEvent(SeederData.EventContent(1))
             .WithNote(SeederData.NoteTitle(1))

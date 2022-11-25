@@ -69,6 +69,7 @@
     }
     async Task OnLoad()
     {
+        await Task.Delay(500);
         ApplicationUser loggedUser = await userRepository.GetUserByEmailAsync(httpContextAccessor.HttpContext.User.Identity.Name);
         model.User = loggedUser;
         data = await eventService.GetAllUserEventsAsync(loggedUser.Id);

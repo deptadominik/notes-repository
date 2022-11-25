@@ -5,7 +5,6 @@ using NotesRepository.Repositories;
 using NotesRepository.Services;
 using SeleniumTests.Constants;
 using SeleniumTests.Infrastructure.Builders;
-using System;
 
 namespace SeleniumTests.Extensions;
 
@@ -127,9 +126,7 @@ public static class SeederExtensions
     public static async Task<IReadOnlyCollection<Tag>> CreateEvents(this EventService es, int eventsPerAccountCount, IReadOnlyCollection<Tag> users,
         UserRepository ur)
     {
-        var random = new Random();
         var eventTags = new List<Tag>();
-
         foreach (var user in users)
         {
             var userObj = await ur.GetUserByIdAsync(user.Id.ToString());
@@ -137,13 +134,14 @@ public static class SeederExtensions
             for (int i = 0; i < eventsPerAccountCount; i++)
             {
                 var id = Guid.NewGuid();
-                var startAt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(random.Next(minValue: 2, maxValue: 14)).Day,
+                var startAt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day,
                     DateTime.Now.Hour, DateTime.Now.Minute, 0, DateTimeKind.Utc);
+                var endAt = startAt.AddDays(1).AddHours(1);
                 var _event = new EventBuilder()
                     .WithEventId(id)
                     .WithContent(SeederData.EventContent(i + 1))
                     .WithStartAt(startAt)
-                    .WithEndAt(startAt.AddDays(2).AddHours(random.Next(minValue: 1, maxValue: 3)))
+                    .WithEndAt(endAt)
                     .WithUser(userObj!)
                     .Build();
                 await es.AddAsync(_event);

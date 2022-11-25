@@ -1,8 +1,11 @@
-﻿using OpenQA.Selenium;
+﻿using NotesRepository.Pages.LoggedUser;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using SeleniumTests.Constants;
+using SeleniumTests.PageObjects.Pages;
 using SeleniumTests.Pages;
 using SeleniumTests.Pages.Account;
+using CalendarPage = SeleniumTests.PageObjects.Pages.CalendarPage;
 
 namespace SeleniumTests.Extensions;
 
@@ -34,5 +37,12 @@ public static class Navigator
         driver.Navigate().GoToUrl($"{Urls.baseUrl}/Identity/Account/Manage");
 
         return new AccountManagementPage(driver);
+    }
+
+    public static CalendarPage GoToCalendar(this IWebDriver driver)
+    {
+        driver.Navigate().GoToUrl($"{Urls.baseUrl}/calendar");
+
+        return new CalendarPage(driver);
     }
 }
