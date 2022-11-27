@@ -4,16 +4,15 @@ using SeleniumTests.Constants;
 using SeleniumTests.Extensions;
 using SeleniumTests.Fixtures;
 using SeleniumTests.Infrastructure.Seeders;
-using Xunit.Sdk;
 
 namespace SeleniumTests.Tests;
 
-public class CalendarTests : IClassFixture<BaseLocalFixture>
+public class CalendarTests : IClassFixture<BaseRemoteFixture>
 {
     private IWebDriver driver;
     private BasicSeedingReport report;
 
-    public CalendarTests(BaseLocalFixture fixture)
+    public CalendarTests(BaseRemoteFixture fixture)
     {
         driver = fixture.WebDriver;
         report = fixture.BasicSeedingReport;
@@ -233,7 +232,9 @@ public class CalendarTests : IClassFixture<BaseLocalFixture>
             .ClickOnEvent(SeederData.EventContent(1))
             .WithNote(SeederData.NoteTitle(1))
             .SaveAndGetNotification();
-        var eventModal = calendarPage.ClickOnEvent(SeederData.EventContent(1));
+        var eventModal = calendarPage
+            .CloseNotification()
+            .ClickOnEvent(SeederData.EventContent(1));
         var selectedNoteTitle = eventModal.GetSelectedNoteTitle();
 
         //THEN
@@ -264,6 +265,7 @@ public class CalendarTests : IClassFixture<BaseLocalFixture>
             .ClickOnEvent(SeederData.EventContent(1))
             .WithNote("---")
             .SaveAndGetNotification();
+        calendarPage.CloseNotification();
 
         //THEN
         notification.Should().Be("You have successfully edited an event");
@@ -310,6 +312,7 @@ public class CalendarTests : IClassFixture<BaseLocalFixture>
             .ClickOnEvent(SeederData.EventContent(1))
             .WithNote(SeederData.NoteTitle(1))
             .Save())
+            .CloseNotification()
             .ClickOnEvent(SeederData.EventContent(1))
             .GoToAttachedNote()
             .GetNoteTitle()

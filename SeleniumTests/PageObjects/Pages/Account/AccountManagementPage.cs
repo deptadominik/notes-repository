@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using SeleniumTests.Infrastructure;
 
 namespace SeleniumTests.Pages.Account;
 
@@ -26,6 +27,7 @@ public class AccountManagementPage
     public AccountManagementPage(IWebDriver driver)
 	{
 		this.driver = driver;
+		driver.WaitUntilElementExists(firstName);
 	}
 
 	public string GetUsername() => driver.FindElement(username).GetAttribute("value");

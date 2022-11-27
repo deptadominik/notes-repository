@@ -25,7 +25,7 @@ public class AccountTests : IClassFixture<BaseRemoteFixture>, IDisposable
     public void UserIsAbleToRegisterWithFirstAndLastName()
     {
         //GIVEN
-        var firstName = "Miros³aw";
+        var firstName = "Miroslaw";
         var lastName = "Kowalski";
 
         //WHEN
